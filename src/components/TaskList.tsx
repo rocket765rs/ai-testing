@@ -140,31 +140,6 @@ export default function TaskList() {
               key={task.id}
               className="group flex items-center gap-3 rounded-lg border border-neutral-200 px-3 py-2 hover:border-neutral-300 transition-colors"
             >
-              <button
-                type="button"
-                onClick={() => toggleTask(task.id)}
-                aria-label={task.done ? "Mark as not done" : "Mark as done"}
-                className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border transition-colors ${
-                  task.done
-                    ? "bg-neutral-900 border-neutral-900"
-                    : "border-neutral-300 hover:border-neutral-500"
-                }`}
-              >
-                {task.done && (
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="white"
-                    strokeWidth={3}
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="h-3 w-3"
-                  >
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
-                )}
-              </button>
-
               <span
                 className={`flex-1 text-sm break-words ${
                   task.done
@@ -174,6 +149,18 @@ export default function TaskList() {
               >
                 {task.text}
               </span>
+
+              <button
+                type="button"
+                onClick={() => toggleTask(task.id)}
+                className={`shrink-0 rounded-lg px-3 py-1 text-xs font-medium transition-colors ${
+                  task.done
+                    ? "bg-neutral-200 text-neutral-500 hover:bg-neutral-300"
+                    : "bg-green-600 text-white hover:bg-green-700"
+                }`}
+              >
+                {task.done ? "Undo" : "Completed"}
+              </button>
 
               <button
                 type="button"
