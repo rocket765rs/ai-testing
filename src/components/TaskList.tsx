@@ -16,6 +16,7 @@ export default function TaskList() {
       const { data, error } = await supabase
         .from("tasks")
         .select("*")
+        .eq("deleted", false)
         .order("created_at", { ascending: false });
 
       if (error) {
@@ -39,6 +40,7 @@ export default function TaskList() {
       id: optimisticId,
       text,
       done: false,
+      deleted: false,
       created_at: new Date().toISOString(),
     };
     setTasks((prev) => [optimisticTask, ...prev]);
@@ -84,7 +86,10 @@ export default function TaskList() {
     const removed = tasks.find((t) => t.id === id);
     setTasks((prev) => prev.filter((t) => t.id !== id));
 
-    const { error } = await supabase.from("tasks").delete().eq("id", id);
+    const { error } = await supabase
+      .from("tasks")
+      .update({ deleted: true })
+      .eq("id", id);
 
     if (error && removed) {
       setError("Couldn't delete the task. Please try again.");
